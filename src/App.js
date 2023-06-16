@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from "react";
+import axios from "axios";
 function App() {
+  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const handleAddVideo = async () => {
+    try {
+      await axios.post("/videos", { url, title });
+      console.log("Video added successfully");
+    } catch (error) {
+      console.error("Failed to add video", error);
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input
+        type="text"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        placeholder="Enter URL"
+      />
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Enter Title"
+      />
+      <button onClick={handleAddVideo}>Add Video</button>
     </div>
   );
 }
-
 export default App;
